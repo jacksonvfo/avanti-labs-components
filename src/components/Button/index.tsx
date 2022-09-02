@@ -1,24 +1,37 @@
 import React from "react"
-import { IconType } from 'react-icons'
+import styles from './button.module.css'
 
-type stylesOptions = 'primary' | 'secundary'
+type defaultSizeOptions = 'none' | 'small' | 'medium' | 'large'
 type sizesOptions = 'default' | 'large' | 'small'
-type iconOptions = {
-  gapInPx?: number, 
-  icon: IconType,  
-  iconPosition?: 'left' | 'right', 
-}
 
 export interface ButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>{
-  buttonStyle: stylesOptions
-  buttonSize: sizesOptions
-  iconOptions?: iconOptions
+  borderRadius?: defaultSizeOptions
+  buttonPadding?: defaultSizeOptions;
+  buttonSize?: sizesOptions
+  childrenOrder?: 'asc' | 'desc'
 } 
 
-const Button: React.FC<ButtonProps> = ({children, className}) => {
+const Button: React.FC<ButtonProps> = props => {
+
+  const {
+    children = 'Default text',
+    buttonPadding = 'medium',
+    borderRadius = 'none',
+    childrenOrder = 'asc',
+    ...rest
+  } = props;
 
   return (
-    <button className={className} onClick={() => alert('its me')}>
+    <button 
+    className={
+        `
+          ${styles.vanillaButton} 
+          ${styles[`borderRadius--${borderRadius}`]}
+          ${styles[`buttonPadding--${buttonPadding}`]}
+          ${styles[`childrenOrder--${childrenOrder}`]}
+        `
+      } 
+      {...rest}>
       {children}
     </button>
   )
